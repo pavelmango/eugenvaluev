@@ -82,3 +82,11 @@ for mu in [ -0.40; 0.00; +0.35 ] do
     | RunawayResonance (g, w) ->
         printfn "    Hopf Probe (mu=%+.2f)  : lambda = %+.2f +/- %.2fi -> RUNAWAY RESONANCE (growth=%+.2f, omega=%.2f rad/s)" mu g (float w) g (float w)
 
+// Episode 3 Audit in F# 10.0: Marketing Dept. Complex-Conjugate Manager Pair (mu = +0.28, omega = 1.95 rad/day)
+let ep3Marketing = Complex(0.28, 1.95)
+match classifyEigenvalue ep3Marketing with
+| RunawayResonance (g, w) ->
+    printfn "    Episode 3 VP Matrix    : lambda = %+.2f +/- %.2fi -> FRIDAY MARKETING HOPF BIFURCATION CONFIRMED!" g (float w)
+| _ -> ()
+
+

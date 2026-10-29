@@ -3,6 +3,9 @@
 // "When We Won the Cold War" — Ms. Olympia's Undergraduate Spectral Laboratory
 // ============================================================================
 
+mod enclave;
+mod episode3;
+
 use std::f64::consts::PI;
 use std::fs;
 use std::process::Command;
@@ -423,11 +426,100 @@ fn main() {
     }
 
     // ========================================================================
-    // ACT V: GENERATE INTERACTIVE RETROFUTURISTIC OBSERVATORY (HTML5 + CANVAS)
+    // ACT V: SOVEREIGN CRYPTOGRAPHIC IDENTITY & QUANTUM-SAFE ENCLAVE
     // ========================================================================
-    let html = build_observatory_html(&all_goe_eigs, &cov_jacobi.eigenvalues, mp_minus, mp_plus, &gen_history, &best_eigs);
+    println!("--- [ACT V] SOVEREIGN CRYPTOGRAPHIC IDENTITY & QUANTUM-SAFE ENCLAVE ---");
+    let trace_invariant: f64 = rust_treaty.eigenvalues.iter().sum();
+    let sovereign_id = enclave::SovereignIdentity::generate(
+        "Eugen Valuev (Евгений Валуев) | Surface-Book-Hand | Eigen-Sovereign",
+        trace_invariant,
+    );
+    let enclave_manifest = format!(
+        "SUBJECT={};DOMINANT_LAMBDA={:.6};LICENSE_COMPLIANCE=100%_COMMA_EXACT;CONSUMER_COST=0.00_FREE;DEV_ACCESS=OPEN",
+        sovereign_id.did, best_eigs[0]
+    );
+    let sealed_packet = sovereign_id.encapsulate_and_seal(
+        enclave_manifest.as_bytes(),
+        b"1989-SURFACE-BOOK-QUANTUM-ENCLAVE-NONCE",
+    );
+    println!("  Sovereign DID             : {}", sovereign_id.did);
+    println!("  Lattice Public Key Digest : {} (Ring Z_3329[X]/(X^64+1))", sovereign_id.public_key_digest_hex);
+    println!("  ML-KEM Session Key (128b) : {}...", sealed_packet.kem_shared_secret_hex);
+    println!("  SpongeWrap AEAD Tag       : {}", sealed_packet.auth_tag_hex);
+    println!("  ML-DSA Attestation Sig    : {}", sealed_packet.signature_hex);
+    println!(
+        "  Quantum Enclave Self-Test : {}\n",
+        if sealed_packet.decrypted_verified {
+            "VERIFIED (Zero-Telemetry, Consumer-Free, Open-Spec)"
+        } else {
+            "FAILED"
+        }
+    );
+
+    // ========================================================================
+    // ACT VI: EPISODE 3 — КАТАСТРОФА С «МАТРИЧНОЙ ОРГАНИЗАЦИЕЙ» (MATRIX ORG)
+    // ========================================================================
+    println!("--- [ACT VI / ЭПИЗОД 3] КАТАСТРОФА С «МАТРИЧНОЙ ОРГАНИЗАЦИЕЙ» (MATRIX ORG) ---");
+    let ep3 = episode3::run_episode3_matrix_organization();
+    println!(
+        "  1. VP's PowerPoint Matrix Audit: Symmetric? {} (||M - M^T||_F = {:.4})",
+        ep3.is_symmetric, ep3.asym_norm
+    );
+    println!("  2. Complex-Conjugate Managers Emerged by Friday:");
+    for cm in &ep3.complex_managers {
+        let regime = if cm.real > 0.0 {
+            "UNSTABLE HOPF BIFURCATION LIMIT CYCLE!"
+        } else {
+            "Spiral Oscillation"
+        };
+        println!(
+            "     * [{} <-> {}] : lambda = {:+.2} +/- {:.2}i  --> {}",
+            cm.department_pair.0, cm.department_pair.1, cm.real, cm.imag, regime
+        );
+    }
+    println!("  3. Marketing Dept. Trajectory (Monday t=0.0 -> Friday t=5.0):");
+    for &(day_t, hype_x, burn_y) in &ep3.marketing_hopf_trajectory {
+        let amp = (hype_x * hype_x + burn_y * burn_y).sqrt();
+        println!(
+            "     Day {:3.1} | Campaign Hype = {:+6.3} | Budget Vortex = {:+6.3} | Orbit Radius r = {:.3}",
+            day_t, hype_x, burn_y, amp
+        );
+    }
+    println!(
+        "  4. Evening Excel On-Call Table Diagonalization (SPD Certified = {}):",
+        ep3.is_positive_definite
+    );
+    println!(
+        "     Off-Diagonal Cross-Team Coupling : {:.4} (Before) ---> {:.2e} (After Diagonalization!)",
+        ep3.off_diagonal_energy_before, ep3.off_diagonal_energy_after
+    );
+    println!("  5. First O(1) Spectral VLOOKUP in Company History:");
+    for v in &ep3.vlookup_demos {
+        println!(
+            "     VLOOKUP(\"{:<19}\") -> {:<32} | lambda={:.3} | Legacy={} steps vs Eugen O(1)={} step",
+            v.key, v.assigned_engineer, v.eigen_lambda, v.legacy_steps, v.spectral_o1_steps
+        );
+    }
+    fs::write("episode3_diagonalized_duty_roster.csv", &ep3.open_csv_artifact)
+        .expect("Unable to write episode3_diagonalized_duty_roster.csv");
+    println!("     Saved Open-Standard RFC-4180 Roster: c:\\Users\\muse-sandbox\\eugenvaluev\\episode3_diagonalized_duty_roster.csv\n");
+
+    // ========================================================================
+    // ACT VII: GENERATE INTERACTIVE RETROFUTURISTIC OBSERVATORY (HTML5 + CANVAS)
+    // ========================================================================
+    let html = build_observatory_html(
+        &all_goe_eigs,
+        &cov_jacobi.eigenvalues,
+        mp_minus,
+        mp_plus,
+        &gen_history,
+        &best_eigs,
+        &sovereign_id,
+        &sealed_packet,
+        &ep3,
+    );
     fs::write("eugen_observatory.html", html).expect("Unable to write eugen_observatory.html");
-    println!("--- [ACT V] CEREMONIAL OBSERVATORY ARTIFACT GENERATED ---");
+    println!("--- [ACT VII] CEREMONIAL OBSERVATORY ARTIFACT GENERATED ---");
     println!("  Saved self-contained interactive observatory to: c:\\Users\\muse-sandbox\\eugenvaluev\\eugen_observatory.html");
     println!("================================================================================");
 }
@@ -439,6 +531,9 @@ fn build_observatory_html(
     mp_plus: f64,
     gen_history: &[(usize, f64, f64, f64)],
     best_eigs: &[f64],
+    sovereign_id: &enclave::SovereignIdentity,
+    sealed_packet: &enclave::SealedEnclavePacket,
+    ep3: &episode3::Episode3Report,
 ) -> String {
     let goe_sample: Vec<String> = goe_eigs.iter().take(480).map(|x| format!("{:.4}", x)).collect();
     let mp_str: Vec<String> = mp_eigs.iter().map(|x| format!("{:.4}", x)).collect();
@@ -447,6 +542,17 @@ fn build_observatory_html(
         .map(|(g, f, gap, pr)| format!("[{},{:.4},{:.4},{:.4}]", g, f, gap, pr))
         .collect();
     let best_str: Vec<String> = best_eigs.iter().map(|x| format!("{:.4}", x)).collect();
+    let vlookup_rows_js: Vec<String> = ep3
+        .vlookup_demos
+        .iter()
+        .enumerate()
+        .map(|(idx, v)| {
+            format!(
+                "{{slot:{},key:\"{}\",eng:\"{}\",lam:{:.4},legacy:{},o1:{}}}",
+                idx, v.key, v.assigned_engineer, v.eigen_lambda, v.legacy_steps, v.spectral_o1_steps
+            )
+        })
+        .collect();
 
     format!(
         r#"<!DOCTYPE html>
@@ -597,6 +703,30 @@ fn build_observatory_html(
       <input type="range" id="rMu" min="-60" max="60" value="15">
     </div>
   </div>
+
+  <div class="card">
+    <h2>Biome V: Sovereign Quantum-Safe Enclave (ML-LWE-3329 & SHAKE256)</h2>
+    <div style="font-size:0.84rem; line-height:1.55; background:#080b12; padding:12px; border-radius:8px; border:1px solid #1f2b44;">
+      <div><strong style="color:var(--gold)">DID:</strong> <code>{did}</code></div>
+      <div><strong style="color:var(--cyan)">Lattice Ring:</strong> <code>Z_3329[X]/(X^64 + 1)</code> | Rank k=2 | Zero-Telemetry</div>
+      <div><strong style="color:var(--cyan)">Public Key Digest:</strong> <code>{pk_digest}</code></div>
+      <div><strong style="color:var(--lime)">KEM Shared Secret:</strong> <code>{kem_sec}...</code> | <strong>AEAD Tag:</strong> <code>{aead_tag}</code></div>
+      <div><strong style="color:var(--magenta)">ML-DSA Sig:</strong> <code>{sig_hex}</code></div>
+      <div style="margin-top:6px; color:#39ff14; font-weight:bold;">✔ License Comma-Exact | Free for Consumers | Open for Developers</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Эпизод 3: «Матричная организация» & O(1) Spectral VLOOKUP</h2>
+    <div style="font-size:0.82rem; margin-bottom:8px; color:#b7c8e8;">
+      Off-Diagonal Coupling: <strong style="color:var(--magenta)">{off_before:.4}</strong> (VP PowerPoint) &rarr; <strong style="color:var(--lime)">{off_after:.2e}</strong> (Eugen Diagonalized Excel)
+    </div>
+    <div class="controls" style="margin-bottom:8px;">
+      <span>Test O(1) VLOOKUP:</span>
+      <select id="selDept" style="background:#080b12; color:var(--gold); border:1px solid var(--cyan); padding:4px 8px; border-radius:4px; font-family:inherit;"></select>
+    </div>
+    <div id="vlookupOut" style="font-size:0.83rem; background:#080b12; padding:10px; border-radius:8px; border:1px solid #1f2b44;"></div>
+  </div>
 </div>
 
 <script>
@@ -605,6 +735,26 @@ const mpEigs = [{mp_js}];
 const mpBounds = [{mp_minus:.4}, {mp_plus:.4}];
 const alifeHist = [{alife_js}];
 const bestEigs = [{best_js}];
+const vlookupRows = [{vlookup_js}];
+
+// Populate Episode 3 O(1) VLOOKUP interactive selector
+const selDept = document.getElementById('selDept');
+const vlookupOut = document.getElementById('vlookupOut');
+vlookupRows.forEach((r, idx) => {{
+  const opt = document.createElement('option');
+  opt.value = idx;
+  opt.textContent = r.key;
+  selDept.appendChild(opt);
+}});
+function updateVlookup() {{
+  const r = vlookupRows[parseInt(selDept.value, 10)];
+  vlookupOut.innerHTML =
+    `<div><strong style="color:var(--gold)">VLOOKUP("${{r.key}}")</strong> &rarr; <span style="color:var(--cyan)">${{r.eng}}</span></div>` +
+    `<div style="margin-top:4px;">Eigen-Slot #${{r.slot}} | &lambda; = <strong>${{r.lam}}</strong> | Off-Diagonal Dependency = <strong>0.00</strong></div>` +
+    `<div style="margin-top:4px; color:var(--lime);">Complexity: <strong>O(1)</strong> (${{r.o1}} spectral projection vs ${{r.legacy}} legacy row scans)</div>`;
+}}
+selDept.onchange = updateVlookup;
+updateVlookup();
 
 // 1. WIGNER SEMICIRCLE & LIVE DYSON REPULSION
 const cW = document.getElementById('cWigner');
@@ -803,6 +953,14 @@ drawHopf();
         goe_js = goe_sample.join(","),
         mp_js = mp_str.join(","),
         alife_js = alife_str.join(","),
-        best_js = best_str.join(",")
+        best_js = best_str.join(","),
+        did = sovereign_id.did,
+        pk_digest = sovereign_id.public_key_digest_hex,
+        kem_sec = sealed_packet.kem_shared_secret_hex,
+        aead_tag = sealed_packet.auth_tag_hex,
+        sig_hex = &sealed_packet.signature_hex[..32],
+        off_before = ep3.off_diagonal_energy_before,
+        off_after = ep3.off_diagonal_energy_after,
+        vlookup_js = vlookup_rows_js.join(",")
     )
 }

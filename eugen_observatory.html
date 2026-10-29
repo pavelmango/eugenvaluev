@@ -146,6 +146,30 @@
       <input type="range" id="rMu" min="-60" max="60" value="15">
     </div>
   </div>
+
+  <div class="card">
+    <h2>Biome V: Sovereign Quantum-Safe Enclave (ML-LWE-3329 & SHAKE256)</h2>
+    <div style="font-size:0.84rem; line-height:1.55; background:#080b12; padding:12px; border-radius:8px; border:1px solid #1f2b44;">
+      <div><strong style="color:var(--gold)">DID:</strong> <code>did:eugen:pqc:ml-lwe3329:aa173853784afc44fa4f43960543712b</code></div>
+      <div><strong style="color:var(--cyan)">Lattice Ring:</strong> <code>Z_3329[X]/(X^64 + 1)</code> | Rank k=2 | Zero-Telemetry</div>
+      <div><strong style="color:var(--cyan)">Public Key Digest:</strong> <code>aa173853784afc44fa4f43960543712b8951840f41a72b8a</code></div>
+      <div><strong style="color:var(--lime)">KEM Shared Secret:</strong> <code>02b94d1fe1c1e0ff2f31ebe4d6c210da...</code> | <strong>AEAD Tag:</strong> <code>18f829ac0b885c1b1f9f7db662cdaa27</code></div>
+      <div><strong style="color:var(--magenta)">ML-DSA Sig:</strong> <code>5564e0a5014d36e21896848c87a5611b</code></div>
+      <div style="margin-top:6px; color:#39ff14; font-weight:bold;">✔ License Comma-Exact | Free for Consumers | Open for Developers</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Эпизод 3: «Матричная организация» & O(1) Spectral VLOOKUP</h2>
+    <div style="font-size:0.82rem; margin-bottom:8px; color:#b7c8e8;">
+      Off-Diagonal Coupling: <strong style="color:var(--magenta)">0.7332</strong> (VP PowerPoint) &rarr; <strong style="color:var(--lime)">3.35e-15</strong> (Eugen Diagonalized Excel)
+    </div>
+    <div class="controls" style="margin-bottom:8px;">
+      <span>Test O(1) VLOOKUP:</span>
+      <select id="selDept" style="background:#080b12; color:var(--gold); border:1px solid var(--cyan); padding:4px 8px; border-radius:4px; font-family:inherit;"></select>
+    </div>
+    <div id="vlookupOut" style="font-size:0.83rem; background:#080b12; padding:10px; border-radius:8px; border:1px solid #1f2b44;"></div>
+  </div>
 </div>
 
 <script>
@@ -154,6 +178,26 @@ const mpEigs = [4.6228,3.4751,1.4381,1.2500,1.1534,1.0758,0.9241,0.8931,0.7247,0
 const mpBounds = [0.4179, 1.8321];
 const alifeHist = [[0,0.2052,0.3421,2.8786],[1,1.1623,1.6057,4.1916],[2,1.6028,2.1029,4.6477],[3,1.6173,2.0404,5.0261],[4,1.6935,2.1287,5.0637],[5,1.7630,2.2937,4.7261],[6,1.7630,2.2937,4.7261],[7,1.7630,2.2937,4.7261],[8,1.7942,2.2552,5.0637],[9,1.7942,2.2552,5.0637],[10,1.7962,2.2823,4.9552],[11,1.7962,2.2823,4.9552],[12,1.7962,2.2823,4.9552],[13,1.8558,2.1914,5.7371],[14,1.8558,2.1914,5.7371],[15,1.8558,2.1914,5.7371],[16,1.8558,2.1914,5.7371],[17,2.0820,2.3274,6.4018],[18,2.1280,2.4264,6.1537],[19,2.1755,2.5106,6.0067],[20,2.1755,2.5106,6.0067],[21,2.1755,2.5106,6.0067],[22,2.2181,2.5090,6.2526],[23,2.2181,2.5090,6.2526],[24,2.2181,2.5090,6.2526],[25,2.2181,2.5090,6.2526],[26,2.2238,2.5504,6.0825],[27,2.2238,2.5504,6.0825],[28,2.2238,2.5504,6.0825],[29,2.2238,2.5504,6.0825],[30,2.2238,2.5504,6.0825]];
 const bestEigs = [2.4269,-0.1234,-0.1368,-0.2301,-0.2704,-0.4329,-0.7649,-1.0851];
+const vlookupRows = [{slot:0,key:"Surface-Book-Core",eng:"Евгений Валуев (Eigen-Lead)",lam:5.2778,legacy:1,o1:1},{slot:1,key:"Excel-Calc-Engine",eng:"Ада Лавлейс (Calc-Architect)",lam:5.1113,legacy:2,o1:1},{slot:2,key:"PowerPoint-SlideVM",eng:"Джеймс Уилкинсон (JH-Pivot)",lam:2.8843,legacy:3,o1:1},{slot:3,key:"NT-Kernel-Guard",eng:"Карл Якоби (Rotation-SRE)",lam:2.7491,legacy:4,o1:1},{slot:4,key:"Marketing-Campaign",eng:"Эмми Нётер (Invariant-OnCall)",lam:2.1988,legacy:5,o1:1},{slot:5,key:"Brand-Synergy-PR",eng:"Андрей Колмогоров (Measure-Ops)",lam:2.0648,legacy:6,o1:1}];
+
+// Populate Episode 3 O(1) VLOOKUP interactive selector
+const selDept = document.getElementById('selDept');
+const vlookupOut = document.getElementById('vlookupOut');
+vlookupRows.forEach((r, idx) => {
+  const opt = document.createElement('option');
+  opt.value = idx;
+  opt.textContent = r.key;
+  selDept.appendChild(opt);
+});
+function updateVlookup() {
+  const r = vlookupRows[parseInt(selDept.value, 10)];
+  vlookupOut.innerHTML =
+    `<div><strong style="color:var(--gold)">VLOOKUP("${r.key}")</strong> &rarr; <span style="color:var(--cyan)">${r.eng}</span></div>` +
+    `<div style="margin-top:4px;">Eigen-Slot #${r.slot} | &lambda; = <strong>${r.lam}</strong> | Off-Diagonal Dependency = <strong>0.00</strong></div>` +
+    `<div style="margin-top:4px; color:var(--lime);">Complexity: <strong>O(1)</strong> (${r.o1} spectral projection vs ${r.legacy} legacy row scans)</div>`;
+}
+selDept.onchange = updateVlookup;
+updateVlookup();
 
 // 1. WIGNER SEMICIRCLE & LIVE DYSON REPULSION
 const cW = document.getElementById('cWigner');

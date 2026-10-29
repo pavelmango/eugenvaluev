@@ -1,6 +1,6 @@
 # 🏋️‍♀️ Eugen Valuev (`eugenvaluev`)
 
-> **"When We Won the Cold War"** — *Ms. Olympia's Undergraduate Laboratory for Heavyweight Spectral Discovery (Fall 1989½)*
+> **"When We Won the Cold War"** — *Ms. Olympia's Undergraduate Laboratory for Heavyweight Spectral Discovery & Sovereign Microsoft Rehabilitation (Fall 1989½)*
 
 ---
 
@@ -8,18 +8,21 @@
 
 ```text
 eugenvaluev/
-├── Cargo.toml                 # Конфигурация Rust 2024 (нулевые внешние зависимости)
+├── Cargo.toml                             # Конфигурация Rust 2024 (нулевые внешние зависимости)
 ├── src/
-│   └── main.rs                # Ядро симуляции 4 биомов Эйген Валуева (Rust 2024)
-├── ceremony.fsx               # Ко-верификатор договора на Microsoft F# 10.0 (.NET 10)
-├── eugen_observatory.html     # Интерактивная HTML5/Canvas обсерватория (4 биома)
-├── eugen_valuev_habitat.ipynb # Музейный артефакт (оригинальный ноутбук с исторической ошибкой numpy)
-└── README.md                  # Главный обзор проекта (этот файл)
+│   ├── main.rs                            # Оркестратор 7 актов симуляции и генератор обсерватории
+│   ├── enclave.rs                         # Суверенный постквантовый анклав (ML-KEM Lattice + SHAKE256)
+│   └── episode3.rs                        # Эпизод 3: «Матричная организация», бифуркация Хопфа и O(1) VLOOKUP
+├── ceremony.fsx                           # Ко-верификатор договора на Microsoft F# 10.0 (.NET 10)
+├── episode3_diagonalized_duty_roster.csv  # Диагонализированная таблица дежурств (RFC-4180 CSV, O(1))
+├── eugen_observatory.html                 # Интерактивная HTML5/Canvas обсерватория (все биомы + Эпизод 3)
+├── eugen_valuev_habitat.ipynb             # Музейный артефакт (оригинальный ноутбук)
+└── README.md                              # Главный обзор проекта (этот файл)
 ```
 
 ---
 
-## 🧬 Четыре биома обитания Эйген Валуева ($\lambda$)
+## 🧬 Семь актов обитания Эйген Валуева ($\lambda$)
 
 1. **Акт I — Степь полукруга Вигнера и отталкивание уровней Дайсона (`Random Matrix Theory`)**
    * Ансамбль из $120$ симметричных матриц GOE ($24 \times 24 \rightarrow 2\,880$ собственных значений).
@@ -31,16 +34,21 @@ eugenvaluev/
    * Популяция из $40$ матричных организмов ($8 \times 8$, нормированных по Фробениусу) эволюционирует 30 поколений, максимизируя спектральную щель $\Delta\lambda = \lambda_1 - \lambda_2 = 2.5504$ и синергию собственного вектора ($\text{PR} = 6.08 / 8.00$).
 4. **Акт IV — Бункер резонанса Хопфа и аудит договора `Rust 2024 <-> Microsoft F# 10.0`**
    * Независимые решатели Якоби на **Rust 2024** ([`src/main.rs`](file:///c:/Users/muse-sandbox/eugenvaluev/src/main.rs)) и **F# 10.0** ([`ceremony.fsx`](file:///c:/Users/muse-sandbox/eugenvaluev/ceremony.fsx)) дают идентичный спектр с точностью до $10^{-15}$.
+5. **Акт V — Суверенная криптографическая идентичность и квантово-безопасный анклав ([`src/enclave.rs`](file:///c:/Users/muse-sandbox/eugenvaluev/src/enclave.rs))**
+   * Чистая реализация губки **Keccak-f[1600] / SHAKE256 (NIST FIPS 202)** и решёточной инкапсуляции ключей **Module-LWE (`ML-KEM` над кольцом $\mathbb{Z}_{3329}[X]/(X^{64}+1)$)** без единой внешней зависимости.
+   * Выпускает детерминированный идентификатор `did:eugen:pqc:ml-lwe3329:aa173853784afc44fa4f43960543712b`, запечатывает манифест в SpongeWrap AEAD и подписывает аттестацией `ML-DSA` (строго соблюдая каждую запятую лицензионных соглашений, бесплатно для пользователей и открыто для разработчиков).
+6. **Акт VI — Эпизод 3: Катастрофа с «Матричной организацией» ([`src/episode3.rs`](file:///c:/Users/muse-sandbox/eugenvaluev/src/episode3.rs))**
+   * **Аудит слайда вице-президента в PowerPoint**: матрица управления оказывается несимметричной ($\|M - M^T\|_F = 6.2911$), порождая три пары **комплексно-сопряжённых менеджеров**, включая блок маркетинга и PR ($\lambda = +0.28 \pm 1.95i$), уходящий к пятнице в **бифуркацию Хопфа**.
+   * **Вечерняя диагонализация дежурств в Excel**: Евгений приводит таблицу дежурств к симметричному положительно-определённому виду и диагонализирует её вращениями Якоби — внедиагональные зависимости падают с $0.7332$ до машинного нуля $3.35 \times 10^{-15}$, а формула `VLOOKUP` в [`episode3_diagonalized_duty_roster.csv`](file:///c:/Users/muse-sandbox/eugenvaluev/episode3_diagonalized_duty_roster.csv) впервые в истории работает за $O(1)$.
 
 ---
 
 ## 🚀 Быстрый запуск из терминала (`Ctrl + ~`)
 
 ```powershell
-# Полный цикл: расчёт 4 биомов в Rust + сверка с F# 10.0 + генерация обсерватории
+# Полный цикл: расчёт всех актов в Rust + сверка с F# 10.0 + генерация обсерватории и CSV
 cargo run --release
 
 # Отдельный запуск ко-верификатора на Microsoft F# 10.0 (.NET 10)
 dotnet fsi ceremony.fsx
 ```
-
