@@ -3,7 +3,19 @@
     "microsoft_learn": {
       "url": "https://learn.microsoft.com/api/mcp",
       "serverUrl": "https://learn.microsoft.com/api/mcp"
+    },
+    "chrome-devtools": {
+      "command": "C:\\Users\\muse-sandbox\\AppData\\Local\\Microsoft\\WinGet\\Packages\\OpenJS.NodeJS.LTS_Microsoft.Winget.Source_8wekyb3d8bbwe\\node-v24.20.0-win-x64\\npx.cmd",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--executablePath",
+        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+        "--no-usage-statistics"
+      ],
+      "env": {
+        "PATH": "C:\\Users\\muse-sandbox\\AppData\\Local\\Microsoft\\WinGet\\Packages\\OpenJS.NodeJS.LTS_Microsoft.Winget.Source_8wekyb3d8bbwe\\node-v24.20.0-win-x64;C:\\Windows\\System32;C:\\Windows"
+      }
     }
   }
 }
-
