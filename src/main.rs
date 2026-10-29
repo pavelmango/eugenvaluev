@@ -5,6 +5,7 @@
 
 mod enclave;
 mod episode3;
+mod purview_graph;
 
 use std::f64::consts::PI;
 use std::fs;
@@ -505,7 +506,46 @@ fn main() {
     println!("     Saved Open-Standard RFC-4180 Roster: c:\\Users\\muse-sandbox\\eugenvaluev\\episode3_diagonalized_duty_roster.csv\n");
 
     // ========================================================================
-    // ACT VII: GENERATE INTERACTIVE RETROFUTURISTIC OBSERVATORY (HTML5 + CANVAS)
+    // ACT VII / EPISODE 4: MICROSOFT LEARN MCP + SOVEREIGN PURVIEW & COMMON GRAPH
+    // ========================================================================
+    println!("--- [ACT VII / ЭПИЗОД 4] MICROSOFT LEARN MCP, PURVIEW RECORDS & FIEDLER CAREER GRAPH ---");
+    let ep4 = purview_graph::run_episode4_learn_purview_graph(&sovereign_id);
+    println!("  1. Registered MCP Server  : {}", ep4.mcp_endpoint);
+    println!(
+        "  2. Live Catalog Vacuum    : {} (Public Modules Indexed = {})",
+        if ep4.live_catalog_fetched {
+            "CONNECTED TO LEARN.MICROSOFT.COM"
+        } else {
+            "OFFLINE DETERMINISTIC SNAPSHOT"
+        },
+        ep4.total_live_modules_seen
+    );
+    println!(
+        "  3. Common Graph Laplacian : Algebraic Connectivity (Fiedler lambda_2) = {:.5} | Spectral Gap (lambda_3 - lambda_2) = {:.5}",
+        ep4.fiedler_value_lambda2, ep4.spectral_gap_lambda3_minus_lambda2
+    );
+    println!("  4. Eugen's Fiedler-Ordered Career Path & Immutable Purview Regulatory Records:");
+    for r in &ep4.records {
+        println!(
+            "     Stage {:02} [v2={:+6.3}] | {} | {:<45} | Plan={} | Sig={}...",
+            r.spectral_career_stage,
+            r.fiedler_coord_v2,
+            r.record_id,
+            if r.title.len() > 45 {
+                format!("{}...", &r.title[..42])
+            } else {
+                r.title.clone()
+            },
+            r.purview_file_plan,
+            &r.pqc_enclave_sig[..12]
+        );
+    }
+    fs::write("purview_common_graph_ledger.json", &ep4.purview_ledger_json)
+        .expect("Unable to write purview_common_graph_ledger.json");
+    println!("     Saved Sovereign Purview Ledger: c:\\Users\\muse-sandbox\\eugenvaluev\\purview_common_graph_ledger.json\n");
+
+    // ========================================================================
+    // ACT VIII: GENERATE INTERACTIVE RETROFUTURISTIC OBSERVATORY (HTML5 + CANVAS)
     // ========================================================================
     let html = build_observatory_html(
         &all_goe_eigs,
@@ -517,9 +557,10 @@ fn main() {
         &sovereign_id,
         &sealed_packet,
         &ep3,
+        &ep4,
     );
     fs::write("eugen_observatory.html", html).expect("Unable to write eugen_observatory.html");
-    println!("--- [ACT VII] CEREMONIAL OBSERVATORY ARTIFACT GENERATED ---");
+    println!("--- [ACT VIII] CEREMONIAL OBSERVATORY & BING DESKTOP CO-PILOT GENERATED ---");
     println!("  Saved self-contained interactive observatory to: c:\\Users\\muse-sandbox\\eugenvaluev\\eugen_observatory.html");
     println!("================================================================================");
 }
@@ -534,6 +575,7 @@ fn build_observatory_html(
     sovereign_id: &enclave::SovereignIdentity,
     sealed_packet: &enclave::SealedEnclavePacket,
     ep3: &episode3::Episode3Report,
+    ep4: &purview_graph::PurviewGraphReport,
 ) -> String {
     let goe_sample: Vec<String> = goe_eigs.iter().take(480).map(|x| format!("{:.4}", x)).collect();
     let mp_str: Vec<String> = mp_eigs.iter().map(|x| format!("{:.4}", x)).collect();
@@ -550,6 +592,23 @@ fn build_observatory_html(
             format!(
                 "{{slot:{},key:\"{}\",eng:\"{}\",lam:{:.4},legacy:{},o1:{}}}",
                 idx, v.key, v.assigned_engineer, v.eigen_lambda, v.legacy_steps, v.spectral_o1_steps
+            )
+        })
+        .collect();
+    let purview_rows_js: Vec<String> = ep4
+        .records
+        .iter()
+        .map(|r| {
+            format!(
+                "{{stage:{},id:\"{}\",uid:\"{}\",title:\"{}\",track:\"{}\",plan:\"{}\",v2:{:+.4},sig:\"{}\"}}",
+                r.spectral_career_stage,
+                r.record_id,
+                r.learn_uid.replace('"', ""),
+                r.title.replace('"', ""),
+                r.domain_track,
+                r.purview_file_plan,
+                r.fiedler_coord_v2,
+                &r.pqc_enclave_sig[..16]
             )
         })
         .collect();
@@ -727,6 +786,28 @@ fn build_observatory_html(
     </div>
     <div id="vlookupOut" style="font-size:0.83rem; background:#080b12; padding:10px; border-radius:8px; border:1px solid #1f2b44;"></div>
   </div>
+
+  <div class="card">
+    <h2>Эпизод 4: Microsoft Learn MCP, Purview Ledger & Fiedler Career Graph</h2>
+    <div style="font-size:0.81rem; margin-bottom:8px; color:#b7c8e8;">
+      MCP: <code>{mcp_url}</code> | Indexed: <strong style="color:var(--lime)">{live_count}</strong> modules | Fiedler &lambda;<sub>2</sub> = <strong style="color:var(--gold)">{fiedler_l2:.4}</strong>
+    </div>
+    <div class="controls" style="margin-bottom:8px;">
+      <span>Fiedler Career Stage:</span>
+      <select id="selCareer" style="background:#080b12; color:var(--cyan); border:1px solid var(--gold); padding:4px 8px; border-radius:4px; font-family:inherit; flex:1;"></select>
+    </div>
+    <div id="purviewOut" style="font-size:0.82rem; background:#080b12; padding:10px; border-radius:8px; border:1px solid #1f2b44;"></div>
+  </div>
+
+  <div class="card">
+    <h2>🧭 Bing Desktop Manager: Visual IDE Co-Pilot & Joint Input HUD</h2>
+    <div style="font-size:0.83rem; line-height:1.5; background:#080b12; padding:12px; border-radius:8px; border:1px solid #1f2b44;">
+      <div><strong style="color:var(--gold)">1. Inspect Live MCP Servers:</strong> Top Bar <code>... (Additional Options) &rarr; MCP Servers</code> (verify <code>microsoft_learn</code>).</div>
+      <div><strong style="color:var(--cyan)">2. Toggle Integrated Terminal:</strong> Press <kbd style="background:#1f2d4a;padding:2px 6px;border-radius:4px;">Ctrl + `</kbd> to run <code>cargo run --release</code>.</div>
+      <div><strong style="color:var(--lime)">3. Side-by-Side Split View:</strong> Press <kbd style="background:#1f2d4a;padding:2px 6px;border-radius:4px;">Ctrl + \</kbd> on <code>purview_common_graph_ledger.json</code>.</div>
+      <div><strong style="color:var(--magenta)">4. Joint Browser/GUI Co-Pilot:</strong> Type <code>/browser</code> in chat anytime you want me to visually drive or inspect UI workflows with you!</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -736,6 +817,27 @@ const mpBounds = [{mp_minus:.4}, {mp_plus:.4}];
 const alifeHist = [{alife_js}];
 const bestEigs = [{best_js}];
 const vlookupRows = [{vlookup_js}];
+const purviewRows = [{purview_js}];
+
+// Populate Episode 4 Purview & Fiedler Career Graph selector
+const selCareer = document.getElementById('selCareer');
+const purviewOut = document.getElementById('purviewOut');
+purviewRows.forEach((r, idx) => {{
+  const opt = document.createElement('option');
+  opt.value = idx;
+  opt.textContent = `Stage 0${{r.stage}} (v2=${{r.v2 >= 0 ? '+' : ''}}${{r.v2}}): ${{r.title}}`;
+  selCareer.appendChild(opt);
+}});
+function updatePurview() {{
+  const r = purviewRows[parseInt(selCareer.value, 10)];
+  purviewOut.innerHTML =
+    `<div><strong style="color:var(--gold)">[${{r.id}}]</strong> <span style="color:var(--cyan)">${{r.title}}</span></div>` +
+    `<div style="margin-top:4px;">Learn UID: <code>${{r.uid}}</code> | Track: <strong>${{r.track}}</strong></div>` +
+    `<div style="margin-top:4px;">Purview File Plan: <span style="color:var(--lime)">${{r.plan}}</span></div>` +
+    `<div style="margin-top:4px; color:var(--magenta);">Fiedler Coord v<sub>2</sub> = <strong>${{r.v2}}</strong> | PQC Seal: <code>${{r.sig}}...</code></div>`;
+}}
+selCareer.onchange = updatePurview;
+updatePurview();
 
 // Populate Episode 3 O(1) VLOOKUP interactive selector
 const selDept = document.getElementById('selDept');
@@ -961,6 +1063,10 @@ drawHopf();
         sig_hex = &sealed_packet.signature_hex[..32],
         off_before = ep3.off_diagonal_energy_before,
         off_after = ep3.off_diagonal_energy_after,
-        vlookup_js = vlookup_rows_js.join(",")
+        vlookup_js = vlookup_rows_js.join(","),
+        mcp_url = ep4.mcp_endpoint,
+        live_count = ep4.total_live_modules_seen,
+        fiedler_l2 = ep4.fiedler_value_lambda2,
+        purview_js = purview_rows_js.join(",")
     )
 }

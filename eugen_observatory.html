@@ -170,6 +170,28 @@
     </div>
     <div id="vlookupOut" style="font-size:0.83rem; background:#080b12; padding:10px; border-radius:8px; border:1px solid #1f2b44;"></div>
   </div>
+
+  <div class="card">
+    <h2>Эпизод 4: Microsoft Learn MCP, Purview Ledger & Fiedler Career Graph</h2>
+    <div style="font-size:0.81rem; margin-bottom:8px; color:#b7c8e8;">
+      MCP: <code>https://learn.microsoft.com/api/mcp</code> | Indexed: <strong style="color:var(--lime)">3468</strong> modules | Fiedler &lambda;<sub>2</sub> = <strong style="color:var(--gold)">0.7056</strong>
+    </div>
+    <div class="controls" style="margin-bottom:8px;">
+      <span>Fiedler Career Stage:</span>
+      <select id="selCareer" style="background:#080b12; color:var(--cyan); border:1px solid var(--gold); padding:4px 8px; border-radius:4px; font-family:inherit; flex:1;"></select>
+    </div>
+    <div id="purviewOut" style="font-size:0.82rem; background:#080b12; padding:10px; border-radius:8px; border:1px solid #1f2b44;"></div>
+  </div>
+
+  <div class="card">
+    <h2>🧭 Bing Desktop Manager: Visual IDE Co-Pilot & Joint Input HUD</h2>
+    <div style="font-size:0.83rem; line-height:1.5; background:#080b12; padding:12px; border-radius:8px; border:1px solid #1f2b44;">
+      <div><strong style="color:var(--gold)">1. Inspect Live MCP Servers:</strong> Top Bar <code>... (Additional Options) &rarr; MCP Servers</code> (verify <code>microsoft_learn</code>).</div>
+      <div><strong style="color:var(--cyan)">2. Toggle Integrated Terminal:</strong> Press <kbd style="background:#1f2d4a;padding:2px 6px;border-radius:4px;">Ctrl + `</kbd> to run <code>cargo run --release</code>.</div>
+      <div><strong style="color:var(--lime)">3. Side-by-Side Split View:</strong> Press <kbd style="background:#1f2d4a;padding:2px 6px;border-radius:4px;">Ctrl + \</kbd> on <code>purview_common_graph_ledger.json</code>.</div>
+      <div><strong style="color:var(--magenta)">4. Joint Browser/GUI Co-Pilot:</strong> Type <code>/browser</code> in chat anytime you want me to visually drive or inspect UI workflows with you!</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -179,6 +201,27 @@ const mpBounds = [0.4179, 1.8321];
 const alifeHist = [[0,0.2052,0.3421,2.8786],[1,1.1623,1.6057,4.1916],[2,1.6028,2.1029,4.6477],[3,1.6173,2.0404,5.0261],[4,1.6935,2.1287,5.0637],[5,1.7630,2.2937,4.7261],[6,1.7630,2.2937,4.7261],[7,1.7630,2.2937,4.7261],[8,1.7942,2.2552,5.0637],[9,1.7942,2.2552,5.0637],[10,1.7962,2.2823,4.9552],[11,1.7962,2.2823,4.9552],[12,1.7962,2.2823,4.9552],[13,1.8558,2.1914,5.7371],[14,1.8558,2.1914,5.7371],[15,1.8558,2.1914,5.7371],[16,1.8558,2.1914,5.7371],[17,2.0820,2.3274,6.4018],[18,2.1280,2.4264,6.1537],[19,2.1755,2.5106,6.0067],[20,2.1755,2.5106,6.0067],[21,2.1755,2.5106,6.0067],[22,2.2181,2.5090,6.2526],[23,2.2181,2.5090,6.2526],[24,2.2181,2.5090,6.2526],[25,2.2181,2.5090,6.2526],[26,2.2238,2.5504,6.0825],[27,2.2238,2.5504,6.0825],[28,2.2238,2.5504,6.0825],[29,2.2238,2.5504,6.0825],[30,2.2238,2.5504,6.0825]];
 const bestEigs = [2.4269,-0.1234,-0.1368,-0.2301,-0.2704,-0.4329,-0.7649,-1.0851];
 const vlookupRows = [{slot:0,key:"Surface-Book-Core",eng:"Евгений Валуев (Eigen-Lead)",lam:5.2778,legacy:1,o1:1},{slot:1,key:"Excel-Calc-Engine",eng:"Ада Лавлейс (Calc-Architect)",lam:5.1113,legacy:2,o1:1},{slot:2,key:"PowerPoint-SlideVM",eng:"Джеймс Уилкинсон (JH-Pivot)",lam:2.8843,legacy:3,o1:1},{slot:3,key:"NT-Kernel-Guard",eng:"Карл Якоби (Rotation-SRE)",lam:2.7491,legacy:4,o1:1},{slot:4,key:"Marketing-Campaign",eng:"Эмми Нётер (Invariant-OnCall)",lam:2.1988,legacy:5,o1:1},{slot:5,key:"Brand-Synergy-PR",eng:"Андрей Колмогоров (Measure-Ops)",lam:2.0648,legacy:6,o1:1}];
+const purviewRows = [{stage:1,id:"PURVIEW-REC-1989-02",uid:"learn.languages.csharp-if-elseif-else",title:"Add decision logic to your code in C#",track:"CLR Runtime & SIMD Numerics",plan:"CLR-202: Runtime Execution & Memory Safety",v2:-0.3941,sig:"f2ebb548a1461490"},{stage:2,id:"PURVIEW-REC-1989-06",uid:"learn.workload-operations-generative-ai-center-excellence",title:"Guide AI workload operations with an AI Center of Excellence",track:"Spectral Spreadsheet Engine",plan:"XLS-606: Zero-Dependency Matrix Diagonalization",v2:-0.3803,sig:"47d51c00aebe58f2"},{stage:3,id:"PURVIEW-REC-1989-01",uid:"learn.fsharp-conditional",title:"Manage execution flow in F#",track:"Functional Core (.NET 10 / F# 10)",plan:"FP-101: Immutable Type-Safe Foundations",v2:-0.3744,sig:"4b4fa5ae708b1bb0"},{stage:4,id:"PURVIEW-REC-1989-05",uid:"learn-m365.msgraph-build-aspnetmvc-apps",title:"Build ASP.NET MVC web applications with the Microsoft Graph .NET SDK",track:"Common Knowledge Graph",plan:"GRF-505: Common Topology & Semantic Indexing",v2:-0.0915,sig:"c8435cd78d83523a"},{stage:5,id:"PURVIEW-REC-1989-07",uid:"learn.wwl.experiment-azure-machine-learning",title:"Experiment with Azure Machine Learning",track:"Heavyweight ML & Bionics",plan:"AIM-707: Marchenko-Pastur Covariance Filtering",v2:-0.0283,sig:"64b6b3821bc1190c"},{stage:6,id:"PURVIEW-REC-1989-04",uid:"learn.wwl.purview-ai-secure-copilot",title:"Secure Microsoft 365 Copilot interactions with Microsoft Purview",track:"Sovereign Purview & Governance",plan:"PRV-404: Immutable Regulatory Records",v2:+0.3558,sig:"f3c56c80b8607539"},{stage:7,id:"PURVIEW-REC-1989-03",uid:"learn.quantum.explore-entanglement",title:"Teleport entangled qubits with Q#",track:"Quantum Enclave & PQC",plan:"PQC-303: Sovereign Cryptographic Enclaves",v2:+0.3946,sig:"e1934dc672c380e2"},{stage:8,id:"PURVIEW-REC-1989-08",uid:"learn.wwl.describe-concepts-of-cryptography",title:"Describe concepts of cryptography",track:"Bing Desktop Visual Co-Pilot",plan:"BDM-808: Joint Human-Agent UI & Input Stewardship",v2:+0.5182,sig:"a4b067cb88ca9173"}];
+
+// Populate Episode 4 Purview & Fiedler Career Graph selector
+const selCareer = document.getElementById('selCareer');
+const purviewOut = document.getElementById('purviewOut');
+purviewRows.forEach((r, idx) => {
+  const opt = document.createElement('option');
+  opt.value = idx;
+  opt.textContent = `Stage 0${r.stage} (v2=${r.v2 >= 0 ? '+' : ''}${r.v2}): ${r.title}`;
+  selCareer.appendChild(opt);
+});
+function updatePurview() {
+  const r = purviewRows[parseInt(selCareer.value, 10)];
+  purviewOut.innerHTML =
+    `<div><strong style="color:var(--gold)">[${r.id}]</strong> <span style="color:var(--cyan)">${r.title}</span></div>` +
+    `<div style="margin-top:4px;">Learn UID: <code>${r.uid}</code> | Track: <strong>${r.track}</strong></div>` +
+    `<div style="margin-top:4px;">Purview File Plan: <span style="color:var(--lime)">${r.plan}</span></div>` +
+    `<div style="margin-top:4px; color:var(--magenta);">Fiedler Coord v<sub>2</sub> = <strong>${r.v2}</strong> | PQC Seal: <code>${r.sig}...</code></div>`;
+}
+selCareer.onchange = updatePurview;
+updatePurview();
 
 // Populate Episode 3 O(1) VLOOKUP interactive selector
 const selDept = document.getElementById('selDept');
