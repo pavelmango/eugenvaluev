@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>When We Won the Cold War — Ms. Olympia's Eugen Valuev Observatory</title>
+<style>
+  :root {
+    --bg: #0b0e17;
+    --panel: #131929;
+    --border: #2a3958;
+    --gold: #ffcc33;
+    --cyan: #00f0ff;
+    --magenta: #ff2a85;
+    --lime: #39ff14;
+    --text: #e8eef9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: radial-gradient(circle at top, #17223b 0%, var(--bg) 70%);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Consolas', monospace;
+  }
+  header {
+    border: 2px solid var(--gold);
+    background: linear-gradient(135deg, #1b132e 0%, #101d36 100%);
+    padding: 20px 26px;
+    border-radius: 12px;
+    box-shadow: 0 0 28px rgba(255, 204, 51, 0.2);
+    margin-bottom: 24px;
+  }
+  h1 {
+    margin: 0 0 8px 0;
+    color: var(--gold);
+    font-size: 1.65rem;
+    letter-spacing: 0.5px;
+  }
+  .quote {
+    color: #b7c8e8;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .badges span {
+    display: inline-block;
+    background: #1f2d4a;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    margin-right: 8px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--cyan);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  canvas {
+    width: 100%;
+    height: 260px;
+    background: #080b12;
+    border-radius: 8px;
+    border: 1px solid #1f2b44;
+  }
+  .controls {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.88rem;
+  }
+  input[type=range] {
+    flex: 1;
+    accent-color: var(--magenta);
+  }
+  button {
+    background: var(--gold);
+    color: #0b0e17;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover { filter: brightness(1.1); }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏋️‍♀️ WHEN WE WON THE COLD WAR: MS. OLYMPIA'S EUGEN VALUEV OBSERVATORY</h1>
+  <div class="quote">"Spot your partner, chalk your palms, and watch the spectrum! When a symmetric operator hits peak conditioning, Eugen Valuev emerges!" — Prof. Ms. Olympia (Fall 1989½)</div>
+  <div class="badges">
+    <span>🦀 Rust 2024 Native Engine</span>
+    <span>🟣 Microsoft F# 10.0 (.NET 10) Co-Signatory Verified</span>
+    <span>☁️ Spark Partitioned Covariance Compatible</span>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>Biome I: Wigner Semicircle Steppe & Dyson Level Repulsion</h2>
+    <canvas id="cWigner" width="520" height="260"></canvas>
+    <div class="controls">
+      <span>Dyson Thermal Noise:</span>
+      <input type="range" id="rNoise" min="0" max="100" value="20">
+      <button id="btnReseed">Spawn New Herd</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Biome II: Distributed Covariance & Marchenko-Pastur Outliers</h2>
+    <canvas id="cMP" width="520" height="260"></canvas>
+    <div class="controls">
+      <span>Marchenko-Pastur Sea: [0.418, 1.832] | 2 Heavyweight Signal Outliers</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Biome III: Evolutionary Arena of Spectral Creatures (30 Generations)</h2>
+    <canvas id="cAlife" width="520" height="260"></canvas>
+    <div class="controls">
+      <span>Apex Champion λ₁ = +2.4269 | Spectral Gap Δλ = 2.5504</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Biome IV: Cold War Resonance Bunker (Hopf Bifurcation Phase Portrait)</h2>
+    <canvas id="cHopf" width="520" height="260"></canvas>
+    <div class="controls">
+      <span>Bifurcation μ: <strong id="lblMu">+0.15</strong></span>
+      <input type="range" id="rMu" min="-60" max="60" value="15">
+    </div>
+  </div>
+</div>
+
+<script>
+const goeEigs = [1.5964,1.5412,1.1367,1.1052,0.9565,0.8837,0.6731,0.5620,0.3588,0.2631,0.2265,0.1325,0.0505,-0.1325,-0.2218,-0.4561,-0.6007,-0.6720,-1.0159,-1.1610,-1.2756,-1.5537,-1.6959,-2.1587,1.6555,1.3048,1.2414,1.1079,0.9203,0.8909,0.7956,0.6650,0.4782,0.4166,0.3285,0.1382,-0.0740,-0.3020,-0.3251,-0.4581,-0.5486,-0.6490,-0.8489,-0.8987,-1.1696,-1.3125,-1.5331,-1.8984,1.9692,1.6906,1.5740,1.2694,0.8406,0.7241,0.6548,0.5647,0.3096,0.2570,0.1735,0.0779,-0.1199,-0.2034,-0.3008,-0.3221,-0.4433,-0.7679,-0.8489,-0.8760,-0.9763,-1.2140,-1.4860,-1.5831,1.7512,1.6497,1.4427,1.2348,1.1401,0.9681,0.7340,0.7097,0.6134,0.4734,0.3361,0.1088,0.0603,-0.1618,-0.2086,-0.4041,-0.4865,-0.5452,-0.7248,-0.9313,-1.0427,-1.1933,-1.2616,-1.6598,2.0216,1.5336,1.3796,1.2010,1.0659,0.9511,0.8021,0.7303,0.5012,0.4908,0.1758,0.0712,0.0088,-0.1370,-0.1736,-0.4049,-0.5775,-0.8209,-0.9036,-1.1512,-1.2726,-1.5804,-1.6370,-1.9950,1.8529,1.5947,1.3925,1.3179,1.1680,0.9052,0.7453,0.5715,0.5105,0.4209,0.1689,0.0822,0.0081,-0.2207,-0.3010,-0.4867,-0.5175,-0.7073,-0.9533,-1.0814,-1.2047,-1.4301,-1.5182,-2.1329,1.4061,1.2146,1.2052,1.0448,0.9531,0.8243,0.5996,0.4366,0.3035,0.2307,0.1118,-0.0540,-0.1903,-0.2463,-0.3345,-0.4420,-0.5371,-0.9541,-0.9911,-1.2926,-1.4458,-1.5479,-1.7188,-1.9434,1.7524,1.4394,1.2527,1.2291,0.9836,0.7735,0.7263,0.5928,0.4226,0.2682,0.1740,0.0786,-0.0043,-0.2128,-0.3460,-0.5519,-0.6034,-0.7720,-0.9379,-1.0389,-1.1842,-1.3528,-1.5338,-1.8034,2.0138,1.7654,1.5005,1.2076,1.0365,0.8945,0.7660,0.6083,0.4202,0.2602,0.1410,-0.0994,-0.2135,-0.2530,-0.2866,-0.5029,-0.7471,-0.7874,-0.9737,-1.1067,-1.2105,-1.3794,-1.5645,-1.7107,2.1996,1.5157,1.4210,1.1568,1.0906,0.8939,0.8346,0.7321,0.6325,0.4019,0.3162,0.0578,-0.1400,-0.2145,-0.4313,-0.5612,-0.6724,-0.7630,-0.9038,-1.0970,-1.1739,-1.3708,-1.7314,-1.9232,1.9622,1.6323,1.4412,1.4321,1.1895,0.8613,0.7512,0.6488,0.5631,0.3926,0.3056,0.1994,0.1334,0.0340,-0.3445,-0.4487,-0.5951,-0.7534,-0.8287,-1.0068,-1.2576,-1.4376,-1.6216,-1.8945,2.1307,1.5597,1.2631,1.2426,1.0546,0.9520,0.6242,0.6013,0.4242,0.2534,0.0820,-0.0423,-0.0916,-0.1705,-0.2964,-0.3868,-0.5506,-0.7004,-0.8556,-0.9720,-1.0702,-1.3680,-1.6041,-1.7702,2.1616,1.6513,1.3656,1.2547,1.1698,1.0712,0.8345,0.5847,0.4840,0.3463,0.2541,0.1846,0.1575,-0.1431,-0.2749,-0.5256,-0.5452,-0.5631,-0.7840,-1.0489,-1.2468,-1.3666,-1.5102,-1.6979,1.9816,1.6121,1.3424,1.1985,1.0800,1.0216,0.8528,0.7036,0.5986,0.4769,0.4219,0.2176,0.0744,-0.0388,-0.2299,-0.3915,-0.5840,-0.7870,-0.9132,-1.0191,-1.0934,-1.3769,-1.5821,-1.9472,1.6157,1.2850,1.2030,1.0022,0.8816,0.6297,0.5916,0.3887,0.3379,0.2082,0.1161,0.0660,-0.1524,-0.3307,-0.4327,-0.6522,-0.7245,-0.7771,-0.8576,-1.0230,-1.0531,-1.2492,-1.4146,-2.0978,1.6968,1.3800,1.2392,1.0994,1.0008,0.8828,0.7687,0.6169,0.4371,0.2379,0.0373,-0.0202,-0.0907,-0.2328,-0.3352,-0.3563,-0.7425,-0.8334,-0.9906,-1.0414,-1.3545,-1.4875,-1.6564,-2.0055,1.4969,1.1947,1.1365,1.0063,0.9078,0.8084,0.6816,0.5478,0.4576,0.3170,0.2024,0.1353,0.0194,-0.2398,-0.3558,-0.4488,-0.5266,-0.6524,-0.9630,-1.0933,-1.1410,-1.5017,-1.6295,-1.9751,1.7799,1.5670,1.3074,1.2354,0.9515,0.8511,0.7837,0.7171,0.6605,0.4487,0.1971,0.1030,-0.1311,-0.2088,-0.3945,-0.5173,-0.6660,-0.7041,-0.8728,-1.0765,-1.1594,-1.2413,-1.4909,-1.7770,1.8380,1.4640,1.4011,1.2450,1.1565,1.0212,0.8100,0.6728,0.5210,0.3571,0.2131,0.1058,-0.0706,-0.2272,-0.3853,-0.4310,-0.5604,-0.7149,-0.7931,-1.0075,-1.0350,-1.1782,-1.4261,-1.7259,1.9320,1.5589,1.4168,1.2564,1.1052,0.9716,0.7572,0.6881,0.4289,0.2635,0.0987,-0.0456,-0.1652,-0.2618,-0.4426,-0.4626,-0.5401,-0.7541,-0.8506,-1.1577,-1.3054,-1.3955,-1.5382,-1.8104];
+const mpEigs = [4.6228,3.4751,1.4381,1.2500,1.1534,1.0758,0.9241,0.8931,0.7247,0.6533,0.5837,0.5515];
+const mpBounds = [0.4179, 1.8321];
+const alifeHist = [[0,0.2052,0.3421,2.8786],[1,1.1623,1.6057,4.1916],[2,1.6028,2.1029,4.6477],[3,1.6173,2.0404,5.0261],[4,1.6935,2.1287,5.0637],[5,1.7630,2.2937,4.7261],[6,1.7630,2.2937,4.7261],[7,1.7630,2.2937,4.7261],[8,1.7942,2.2552,5.0637],[9,1.7942,2.2552,5.0637],[10,1.7962,2.2823,4.9552],[11,1.7962,2.2823,4.9552],[12,1.7962,2.2823,4.9552],[13,1.8558,2.1914,5.7371],[14,1.8558,2.1914,5.7371],[15,1.8558,2.1914,5.7371],[16,1.8558,2.1914,5.7371],[17,2.0820,2.3274,6.4018],[18,2.1280,2.4264,6.1537],[19,2.1755,2.5106,6.0067],[20,2.1755,2.5106,6.0067],[21,2.1755,2.5106,6.0067],[22,2.2181,2.5090,6.2526],[23,2.2181,2.5090,6.2526],[24,2.2181,2.5090,6.2526],[25,2.2181,2.5090,6.2526],[26,2.2238,2.5504,6.0825],[27,2.2238,2.5504,6.0825],[28,2.2238,2.5504,6.0825],[29,2.2238,2.5504,6.0825],[30,2.2238,2.5504,6.0825]];
+const bestEigs = [2.4269,-0.1234,-0.1368,-0.2301,-0.2704,-0.4329,-0.7649,-1.0851];
+
+// 1. WIGNER SEMICIRCLE & LIVE DYSON REPULSION
+const cW = document.getElementById('cWigner');
+const ctxW = cW.getContext('2d');
+let particles = [-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5];
+
+function drawWigner() {
+  ctxW.clearRect(0, 0, cW.width, cW.height);
+  const bins = 20;
+  const counts = new Array(bins).fill(0);
+  goeEigs.forEach(v => {
+    const b = Math.floor(((v + 2.2) / 4.4) * bins);
+    if (b >= 0 && b < bins) counts[b]++;
+  });
+  const dx = 4.4 / bins;
+  const padL = 40, padB = 45, w = cW.width - 60, h = cW.height - 70;
+
+  // Bars
+  for (let i = 0; i < bins; i++) {
+    const density = counts[i] / (goeEigs.length * dx);
+    const bh = (density / 0.42) * h;
+    ctxW.fillStyle = 'rgba(0, 240, 255, 0.35)';
+    ctxW.strokeStyle = '#00f0ff';
+    const x = padL + (i / bins) * w;
+    ctxW.fillRect(x, cW.height - padB - bh, (w / bins) - 2, bh);
+    ctxW.strokeRect(x, cW.height - padB - bh, (w / bins) - 2, bh);
+  }
+
+  // Analytical Semicircle curve
+  ctxW.beginPath();
+  ctxW.strokeStyle = '#ffcc33';
+  ctxW.lineWidth = 2.5;
+  for (let px = 0; px <= w; px++) {
+    const lam = -2.2 + (px / w) * 4.4;
+    const rho = Math.abs(lam) <= 2.0 ? Math.sqrt(4 - lam * lam) / (2 * Math.PI) : 0;
+    const py = cW.height - padB - (rho / 0.42) * h;
+    if (px === 0) ctxW.moveTo(padL + px, py);
+    else ctxW.lineTo(padL + px, py);
+  }
+  ctxW.stroke();
+
+  // Dyson Brownian Repelling Eigenvalues on the Squat Rack
+  const noise = parseFloat(document.getElementById('rNoise').value) / 2500.0;
+  const dt = 0.008;
+  const nextP = particles.slice();
+  for (let i = 0; i < particles.length; i++) {
+    let force = -0.65 * particles[i]; // harmonic confining trap
+    for (let j = 0; j < particles.length; j++) {
+      if (i !== j) {
+        const diff = particles[i] - particles[j];
+        const safe = Math.sign(diff || 1) * Math.max(Math.abs(diff), 0.06);
+        force += 0.14 / safe; // 1/(lambda_i - lambda_j) Coulomb repulsion!
+      }
+    }
+    nextP[i] += force * dt + (Math.random() - 0.5) * noise;
+    nextP[i] = Math.max(-2.05, Math.min(2.05, nextP[i]));
+  }
+  nextP.sort((a, b) => a - b);
+  particles = nextP;
+
+  particles.forEach((p, idx) => {
+    const x = padL + ((p + 2.2) / 4.4) * w;
+    const y = cW.height - 20;
+    ctxW.beginPath();
+    ctxW.arc(x, y, 6, 0, Math.PI * 2);
+    ctxW.fillStyle = '#ff2a85';
+    ctxW.fill();
+    ctxW.strokeStyle = '#ffffff';
+    ctxW.lineWidth = 1.2;
+    ctxW.stroke();
+  });
+  requestAnimationFrame(drawWigner);
+}
+document.getElementById('btnReseed').onclick = () => {
+  particles = particles.map(() => (Math.random() - 0.5) * 0.4);
+};
+drawWigner();
+
+// 2. MARCHENKO-PASTUR SPECTRUM
+const cMP = document.getElementById('cMP');
+const ctxMP = cMP.getContext('2d');
+function drawMP() {
+  ctxMP.clearRect(0, 0, cMP.width, cMP.height);
+  const padL = 45, padB = 40, w = cMP.width - 70, h = cMP.height - 65;
+  const maxLam = Math.max(...mpEigs) * 1.1;
+
+  // Shade MP bulk zone
+  const xMinMP = padL + (mpBounds[0] / maxLam) * w;
+  const xMaxMP = padL + (mpBounds[1] / maxLam) * w;
+  ctxMP.fillStyle = 'rgba(57, 255, 20, 0.12)';
+  ctxMP.fillRect(xMinMP, 20, xMaxMP - xMinMP, h);
+
+  mpEigs.forEach((lam, i) => {
+    const x = padL + (lam / maxLam) * w;
+    const isOutlier = lam > mpBounds[1];
+    const barH = (lam / maxLam) * (h - 20);
+    ctxMP.fillStyle = isOutlier ? '#ff2a85' : '#00f0ff';
+    ctxMP.fillRect(x - 6, cMP.height - padB - barH, 12, barH);
+    ctxMP.beginPath();
+    ctxMP.arc(x, cMP.height - padB - barH, 5, 0, Math.PI * 2);
+    ctxMP.fillStyle = isOutlier ? '#ffcc33' : '#00f0ff';
+    ctxMP.fill();
+  });
+
+  ctxMP.fillStyle = '#e8eef9';
+  ctxMP.font = '12px Consolas, monospace';
+  ctxMP.fillText('Green Band: Marchenko-Pastur Bulk Sea | Pink/Gold: Emergent Heavyweight Eugen Valuevs', padL, 18);
+}
+drawMP();
+
+// 3. EVOLUTIONARY ALIFE ARENA
+const cA = document.getElementById('cAlife');
+const ctxA = cA.getContext('2d');
+function drawAlife() {
+  ctxA.clearRect(0, 0, cA.width, cA.height);
+  const padL = 45, padB = 35, w = cA.width - 65, h = cA.height - 55;
+  const maxVal = Math.max(...alifeHist.map(r => Math.max(r[1], r[2]))) * 1.15;
+
+  // Draw Spectral Gap & Fitness curves
+  [['#ffcc33', 2, 'Spectral Gap Δλ'], ['#00f0ff', 1, 'Synergy-Weighted Fitness']].forEach(([color, colIdx, label], idx) => {
+    ctxA.beginPath();
+    ctxA.strokeStyle = color;
+    ctxA.lineWidth = 2.5;
+    alifeHist.forEach((row, i) => {
+      const x = padL + (i / (alifeHist.length - 1)) * w;
+      const y = cA.height - padB - (row[colIdx] / maxVal) * h;
+      if (i === 0) ctxA.moveTo(x, y);
+      else ctxA.lineTo(x, y);
+    });
+    ctxA.stroke();
+    ctxA.fillStyle = color;
+    ctxA.font = '12px Consolas, monospace';
+    ctxA.fillText(label, padL + idx * 210, 18);
+  });
+}
+drawAlife();
+
+// 4. COLD WAR HOPF BIFURCATION PHASE PORTRAIT
+const cH = document.getElementById('cHopf');
+const ctxH = cH.getContext('2d');
+let tHopf = 0;
+function drawHopf() {
+  ctxH.clearRect(0, 0, cH.width, cH.height);
+  const mu = parseFloat(document.getElementById('rMu').value) / 100.0;
+  document.getElementById('lblMu').textContent = (mu >= 0 ? '+' : '') + mu.toFixed(2);
+
+  const cx = cH.width / 2, cy = cH.height / 2, scale = 85;
+  ctxH.strokeStyle = '#2a3958';
+  ctxH.beginPath();
+  ctxH.moveTo(0, cy); ctxH.lineTo(cH.width, cy);
+  ctxH.moveTo(cx, 0); ctxH.lineTo(cx, cH.height);
+  ctxH.stroke();
+
+  // If mu > 0, draw the stable limit cycle of radius sqrt(mu)
+  if (mu > 0) {
+    ctxH.beginPath();
+    ctxH.arc(cx, cy, Math.sqrt(mu) * scale, 0, Math.PI * 2);
+    ctxH.strokeStyle = 'rgba(57, 255, 20, 0.6)';
+    ctxH.lineWidth = 2;
+    ctxH.stroke();
+  }
+
+  // Integrate trajectory from outer and inner seeds
+  [[1.15, 0.0, '#00f0ff'], [0.12, 0.0, '#ff2a85']].forEach(([r0, th0, color]) => {
+    let x = r0 * Math.cos(th0 + tHopf * 0.02);
+    let y = r0 * Math.sin(th0 + tHopf * 0.02);
+    ctxH.beginPath();
+    ctxH.strokeStyle = color;
+    ctxH.lineWidth = 1.8;
+    const dt = 0.025, omega = 1.89;
+    for (let step = 0; step < 260; step++) {
+      const px = cx + x * scale, py = cy - y * scale;
+      if (step === 0) ctxH.moveTo(px, py);
+      else ctxH.lineTo(px, py);
+      const r2 = x * x + y * y;
+      const dx = mu * x - omega * y - r2 * x;
+      const dy = omega * x + mu * y - r2 * y;
+      x += dx * dt;
+      y += dy * dt;
+    }
+    ctxH.stroke();
+  });
+
+  tHopf++;
+  requestAnimationFrame(drawHopf);
+}
+drawHopf();
+</script>
+</body>
+</html>
