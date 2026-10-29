@@ -9,8 +9,9 @@
       "args": [
         "-y",
         "chrome-devtools-mcp@latest",
-        "--executablePath",
-        "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+        "--autoConnect",
+        "--userDataDir",
+        "C:\\Users\\muse-sandbox\\AppData\\Local\\Microsoft\\Edge\\User Data",
         "--no-usage-statistics"
       ],
       "env": {
